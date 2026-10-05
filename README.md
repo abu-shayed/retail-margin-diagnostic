@@ -45,14 +45,15 @@ Kaggle: "Retail Sales, Returns & Shipping Dataset" — three tables:
 2. **Excel (Pivot)** — quick exploratory cuts by Region, Segment, and 
    Category surfaced an early signal: Central region + Furniture category 
    showed a collapsed margin (-2% vs. ~17% elsewhere).
-3. SQL (MySQL) — built a declared schema, loaded all three tables, 
+3. **SQL (MySQL)** — built a declared schema, loaded all three tables, 
    and ran targeted queries to test four hypotheses:
-   - H1 — Discounting:** confirmed, localized to Central + Binders
-   - H2 — Returns:** confirmed as a secondary, compounding factor on 
+   - **H1 — Discounting:** confirmed, localized to Central + Binders
+   - **H2 — Returns:** confirmed as a secondary, compounding factor on 
      the same product (Binders)
    - **H3 — Shipping drag:** confirmed, but as a separate, company-wide 
      issue centered on Tables, not Central
-   
+   - **H4 — Mix shift:** ruled out, using a `LAG()` window function to 
+     track category revenue share by year
 4. **Power BI** — *(in progress)* — executive dashboard built around 
    these two confirmed findings.
 
@@ -83,5 +84,3 @@ Kaggle: "Retail Sales, Returns & Shipping Dataset" — three tables:
 
 Excel (profiling, Pivot Tables) · MySQL (schema design, CTEs, window 
 functions, joins) · Power BI (data modeling, DAX, dashboarding)
-
-
