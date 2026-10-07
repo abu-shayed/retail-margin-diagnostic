@@ -17,10 +17,13 @@ margin loss in this dataset:
    an estimated **$25,276** once per-unit shipping cost is factored against 
    profit — a structural/logistics issue unrelated to region or discounting.
 
-A fourth hypothesis — that the company is simply shifting toward a 
-cheaper, lower-margin product mix over time — was tested and **ruled out**: 
-Furniture's share of total revenue has actually been shrinking since 2015, 
-not growing.
+A third hypothesis — that the company is shifting toward a cheaper, 
+lower-margin product mix — was tested and **ruled out**: Furniture's share 
+of total revenue has been shrinking since 2015, not growing.
+
+## Dashboard
+<img width="1919" height="1076" alt="retail -margin-diagnostic screenshot" src="https://github.com/user-attachments/assets/828fc170-0ef5-4039-b2c7-7cab15b711ff" />
+
 
 ## Business Problem
 
@@ -32,7 +35,7 @@ purely descriptive dashboard.
 ## Data Source
 
 Kaggle: "Retail Sales, Returns & Shipping Dataset" — three tables:
-- **Orders** (9,994 rows) — the core fact table: sales, discount, profit, 
+- **Orders** (9,994 rows) — core fact table: sales, discount, profit, 
   COGS, product, customer, and geography details
 - **Returns** (296 rows) — which orders were returned
 - **Shipping Rate** (49 rows) — per-state shipping cost per unit
@@ -42,20 +45,25 @@ Kaggle: "Retail Sales, Returns & Shipping Dataset" — three tables:
 1. **Excel** — profiled all three raw files for data quality (nulls, 
    duplicates, negative values, unmatched join keys, date sanity). Data 
    was clean on every check.
-2. **Excel (Pivot)** — quick exploratory cuts by Region, Segment, and 
-   Category surfaced an early signal: Central region + Furniture category 
-   showed a collapsed margin (-2% vs. ~17% elsewhere).
+2. **Excel (Pivot)** — exploratory cuts by Region, Segment, and Category 
+   surfaced an early signal: Central + Furniture showed a collapsed 
+   margin (-2% vs. ~17% elsewhere).
 3. **SQL (MySQL)** — built a declared schema, loaded all three tables, 
    and ran targeted queries to test four hypotheses:
    - **H1 — Discounting:** confirmed, localized to Central + Binders
    - **H2 — Returns:** confirmed as a secondary, compounding factor on 
-     the same product (Binders)
+     Binders
    - **H3 — Shipping drag:** confirmed, but as a separate, company-wide 
      issue centered on Tables, not Central
    - **H4 — Mix shift:** ruled out, using a `LAG()` window function to 
      track category revenue share by year
-4. **Power BI** — *(in progress)* — executive dashboard built around 
-   these two confirmed findings.
+4. **Power BI** — built a data model (orders → shipping_rate on state, 
+   orders → returns on order_id), DAX measures (Total Profit, Total Sales, 
+   Profit Margin %, Avg Discount %), and a Power Query merge for shipping 
+   cost and Profit After Shipping. The dashboard highlights only the two 
+   findings (coral) against neutral data (navy): margin by region and 
+   category, Central Binders by discount tier, Tables after shipping, 
+   KPI cards, and Region/Category/Date slicers.
 
 ## Key Insights
 
@@ -80,7 +88,9 @@ Kaggle: "Retail Sales, Returns & Shipping Dataset" — three tables:
 
 ## Repository Structure
 
+
+
 ## Tools Used
 
 Excel (profiling, Pivot Tables) · MySQL (schema design, CTEs, window 
-functions, joins) · Power BI (data modeling, DAX, dashboarding)
+functions, joins) · Power BI (data modeling, DAX, Power Query, dashboarding)
